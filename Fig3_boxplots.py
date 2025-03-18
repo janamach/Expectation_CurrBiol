@@ -17,7 +17,7 @@ subplot_titles = ["Flight length\n(all bees)",
 
 input_file = "tables/all_data.csv"
 
-figure_outname = "figures/Fig3.png"
+figure_outname = "Fig3.png"
 p_value_style = "star"
 
 # Set the following variables to True if you want to generate new csv files:

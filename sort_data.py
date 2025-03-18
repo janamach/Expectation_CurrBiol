@@ -83,8 +83,11 @@ for release_site in release_sites:
         # Calculate distances
         df_temp2["distance_from_previous_position"] = np.append([np.nan], np.sqrt(np.diff(df_temp2["x"])**2 + np.diff(df_temp2["y"])**2))   
         df_temp2["distance_from_release_site"] = np.sqrt(df_temp2["x"]**2 + df_temp2["y"]**2)
-        df_temp2["distance_to_feeder"] = np.sqrt((df_temp2["x_orig"] - feeder_x)**2 + (df_temp2["y_orig"] - feeder_y)**2)
-        df_temp2["distance_to_virtual_feeder"] = np.sqrt((df_temp2["x"] - feeder_x)**2 + (df_temp2["y"] - feeder_y)**2)
+
+        # Disable for now:
+        if False:
+            df_temp2["distance_to_feeder"] = np.sqrt((df_temp2["x_orig"] - feeder_x)**2 + (df_temp2["y_orig"] - feeder_y)**2)
+            df_temp2["distance_to_virtual_feeder"] = np.sqrt((df_temp2["x"] - feeder_x)**2 + (df_temp2["y"] - feeder_y)**2)
 
         # Calculate speeds:
         df_temp2["speed"] = df_temp2["distance_from_previous_position"] / df_temp2["dt"]
