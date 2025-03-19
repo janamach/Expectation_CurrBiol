@@ -52,7 +52,7 @@ for release_site in release_sites:
     df_temp = pd.DataFrame()
     for file in files:
         # Read the file using pandas:
-        df_temp2 = pd.read_csv(release_site + "/" + file)
+        df_temp2 = pd.read_csv(release_site + "/" + file, header=None)
         # Give names to the original columns:
         df_temp2.columns = ["x_orig", "y_orig", "t"]
 
@@ -69,13 +69,13 @@ for release_site in release_sites:
             x0 = 0
             y0 = 0
 
-        # Sort the dataframe by time:
-        df_temp2 = df_temp2.sort_values(by="t")
+       # replace nan with -1
+        df_temp2 = df_temp2.fillna(-1)
 
         # Add a column with the transformed x coordinate:
         df_temp2["x"] = df_temp2["x_orig"] - x0
         # Add a column with the transformed y coordinate:
-        df_temp2["y"] = df_temp2["y_orig"] - y0       
+        df_temp2["y"] = df_temp2["y_orig"] - y0
 
         # Add a column called "dt", calculate the difference between consecutive t values:
         df_temp2["dt"] = np.append([np.nan], np.diff(df_temp2["t"]))
@@ -84,13 +84,13 @@ for release_site in release_sites:
         df_temp2["distance_from_previous_position"] = np.append([np.nan], np.sqrt(np.diff(df_temp2["x"])**2 + np.diff(df_temp2["y"])**2))   
         df_temp2["distance_from_release_site"] = np.sqrt(df_temp2["x"]**2 + df_temp2["y"]**2)
 
+        # Calculate speeds from one position to the next (prone to errors):
+        df_temp2["dv"] = df_temp2["distance_from_previous_position"] / df_temp2["dt"]
+
         # Disable for now:
         if False:
             df_temp2["distance_to_feeder"] = np.sqrt((df_temp2["x_orig"] - feeder_x)**2 + (df_temp2["y_orig"] - feeder_y)**2)
             df_temp2["distance_to_virtual_feeder"] = np.sqrt((df_temp2["x"] - feeder_x)**2 + (df_temp2["y"] - feeder_y)**2)
-
-            # Calculate speeds from one position to the next (prone to errors):
-            df_temp2["speed"] = df_temp2["distance_from_previous_position"] / df_temp2["dt"]
 
         # Calculate bearings:
         df_temp2["bearing_from_previous_position"] = np.degrees(np.arctan2(df_temp2["x"].diff(), df_temp2["y"].diff()))
