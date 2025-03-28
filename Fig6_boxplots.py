@@ -53,8 +53,6 @@ for bee, bdf in df.groupby("Bee"):
                         
     # Concatinate the dataframe to df2:
     df_output = pd.concat([df_output, df_temp], axis=0, ignore_index=True)
-#save df2 to csv:
-df_output.to_csv("tables/Fig3_flight_characteristics.csv", index=False)
 
 # Rename "Hive_release" to "HR":
 df_output["release_site"] = df_output["release_site"].replace("Hive_release", "HR")
