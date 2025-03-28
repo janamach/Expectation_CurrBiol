@@ -87,10 +87,8 @@ for release_site in release_sites:
         # Calculate speeds from one position to the next (prone to errors):
         df_temp2["dv"] = df_temp2["distance_from_previous_position"] / df_temp2["dt"]
 
-        # Disable for now:
-        if False:
-            df_temp2["distance_to_feeder"] = np.sqrt((df_temp2["x_orig"] - feeder_x)**2 + (df_temp2["y_orig"] - feeder_y)**2)
-            df_temp2["distance_to_virtual_feeder"] = np.sqrt((df_temp2["x"] - feeder_x)**2 + (df_temp2["y"] - feeder_y)**2)
+        df_temp2["distance_to_feeder"] = np.sqrt((df_temp2["x_orig"] - feeder_x)**2 + (df_temp2["y_orig"] - feeder_y)**2)
+        df_temp2["distance_to_virtual_feeder"] = np.sqrt((df_temp2["x"] - feeder_x)**2 + (df_temp2["y"] - feeder_y)**2)
 
         # Calculate bearings:
         df_temp2["bearing_from_previous_position"] = np.degrees(np.arctan2(df_temp2["x"].diff(), df_temp2["y"].diff()))
